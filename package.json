@@ -1,0 +1,14 @@
+{
+  "name": "Verseprop",
+  "version": "1.0.1",
+  "description": "Smart contracts for metaverse property",
+  "main": "index.js",
+  "author": "philoniare <philoniare@gmail.com>",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "chai": "^4.3.7",
+    "ethers": "^6.3.0",
+    "hardhat": "^2.14.0"
+  }
+}
