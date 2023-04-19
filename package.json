@@ -6,6 +6,7 @@
   "author": "philoniare <philoniare@gmail.com>",
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",
+    "@openzeppelin/contracts-upgradeable": "^4.8.3",
     "@openzeppelin/test-helpers": "^0.5.16",
     "chai": "^4.3.7",
     "ethers": "^6.3.0",
