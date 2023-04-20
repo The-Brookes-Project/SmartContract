@@ -5,7 +5,7 @@ const { expect } = require("chai");
 const { BN, ether } = require("@openzeppelin/test-helpers");
 
 contract("Rental", function (accounts) {
-  const [renter, addr1] = accounts;
+  const [renter, addr1, renter2] = accounts;
   let rental, erc721, tokenId;
 
   beforeEach(async () => {

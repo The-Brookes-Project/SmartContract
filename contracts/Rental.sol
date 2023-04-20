@@ -33,6 +33,7 @@ contract Rental is Ownable, ReentrancyGuardUpgradeable {
     function createRentalOffer(uint256 tokenId, uint256 rentPrice, uint64 rentalDuration, address nftAddress) public {
         require(ERC721(nftAddress).ownerOf(tokenId) == msg.sender, "Rental: Not the owner of the token");
         require(!rentalOffers[tokenId].isActive, "Rental: Rental offer already exists");
+        require(IERC4907(nftAddress).userOf(tokenId) == address(0), "Rental: NFT should not already have an existing renter");
 
         RentalOffer memory newRentalOffer = RentalOffer({
             tokenId: tokenId,
