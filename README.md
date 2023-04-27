@@ -1,5 +1,9 @@
 # Verseprop Marketplace Smart Contract - Truffle Project
 
+## Sepolia Contract Addresses:
+- Marketplace: 0xfA2d157C5A604C0d83b492e5769eBB747D140bd4
+- Rental: 0x0c566A1eb7d47861B176e39e05109b85e6385CD2
+
 
 ## Purpose
 The purpose of this smart contract is to achieve the flow of the digital `land` (NFT) agency marketplace logic.
