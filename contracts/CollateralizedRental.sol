@@ -86,6 +86,18 @@ contract CollateralizedRental is Ownable {
         delete rentals[_nftAddress][_tokenId];
     }
 
+    function cancelListing(address _nftAddress, uint256 _tokenId) public {
+        IERC721 nftContract = IERC721(_nftAddress);
+        Rental storage rental = rentals[_nftAddress][_tokenId];
+        require(
+            msg.sender == rental.owner,
+            "Only the owner can claim back the NFT"
+        );
+        require(rental.isRented == false, "NFT is already rented");
+        nftContract.transferFrom(rental.renter, rental.owner, _tokenId); // transfer NFT back to owner
+        delete rentals[_nftAddress][_tokenId];
+    }
+
     function claimBack(address _nftAddress, uint256 _tokenId) public {
         IERC721 nftContract = IERC721(_nftAddress);
         Rental storage rental = rentals[_nftAddress][_tokenId];
