@@ -8,9 +8,9 @@ contract RentalContractFactory {
         bool exists;
     }
 
-    mapping(uint256 => DeployedContract) public envIdToContract;
+    mapping(string => DeployedContract) public envIdToContract;
 
-    function deployRentalContract(address versepropAddress, uint256 dailyRentFee, uint256 envId) external returns (address) {
+    function deployRentalContract(address versepropAddress, uint256 dailyRentFee, string memory envId) external returns (address) {
         require(!envIdToContract[envId].exists, "Contract with this envId already exists");
 
         RentalContract newContract = new RentalContract(versepropAddress, dailyRentFee);
@@ -24,7 +24,7 @@ contract RentalContractFactory {
         return deployedContract;
     }
 
-    function getContractAddress(uint256 envId) external view returns (address) {
+    function getContractAddress(string memory envId) external view returns (address) {
         require(envIdToContract[envId].exists, "Contract with this envId does not exist");
         return envIdToContract[envId].rentalContractAddress;
     }
