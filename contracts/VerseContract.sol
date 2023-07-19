@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "./VerseToken.sol";
@@ -10,10 +11,20 @@ contract RentalContractFactory {
 
     mapping(string => DeployedContract) public envIdToContract;
 
-    function deployRentalContract(address versepropAddress, uint256 dailyRentFee, string memory envId) external returns (address) {
-        require(!envIdToContract[envId].exists, "Contract with this envId already exists");
+    function deployRentalContract(
+        address payable versepropAddress,
+        uint256 dailyRentFee,
+        string memory envId
+    ) external returns (address) {
+        require(
+            !envIdToContract[envId].exists,
+            "Contract with this envId already exists"
+        );
 
-        RentalContract newContract = new RentalContract(versepropAddress, dailyRentFee);
+        RentalContract newContract = new RentalContract(
+            versepropAddress,
+            dailyRentFee
+        );
         address deployedContract = address(newContract);
 
         envIdToContract[envId] = DeployedContract({
@@ -24,8 +35,13 @@ contract RentalContractFactory {
         return deployedContract;
     }
 
-    function getContractAddress(string memory envId) external view returns (address) {
-        require(envIdToContract[envId].exists, "Contract with this envId does not exist");
+    function getContractAddress(
+        string memory envId
+    ) external view returns (address) {
+        require(
+            envIdToContract[envId].exists,
+            "Contract with this envId does not exist"
+        );
         return envIdToContract[envId].rentalContractAddress;
     }
 }
