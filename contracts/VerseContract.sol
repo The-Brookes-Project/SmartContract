@@ -14,7 +14,9 @@ contract RentalContractFactory {
     function deployRentalContract(
         address payable versepropAddress,
         uint256 dailyRentFee,
-        string memory envId
+        string memory envId,
+        uint256 mintLimit,
+        string memory tokenUri
     ) external returns (address) {
         require(
             !envIdToContract[envId].exists,
@@ -23,7 +25,9 @@ contract RentalContractFactory {
 
         RentalContract newContract = new RentalContract(
             versepropAddress,
-            dailyRentFee
+            dailyRentFee,
+            mintLimit,
+            tokenUri
         );
         address deployedContract = address(newContract);
 

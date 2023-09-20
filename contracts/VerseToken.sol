@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract RentalContract is ERC721 {
+contract RentalContract is ERC721URIStorage {
     using Counters for Counters.Counter;
 
     address public owner;
-    address payable public versepropAddress; // Change to payable to allow transfers
+    address payable public versepropAddress;
     uint256 public dailyRentFee;
+    uint256 public mintLimit;
     uint256 public constant FEE_PERCENT = 10;
+    string public tokenUri;
 
     Counters.Counter private tokenIdCounter;
 
@@ -18,11 +20,20 @@ contract RentalContract is ERC721 {
 
     constructor(
         address payable _versepropAddress,
-        uint256 _dailyRentFee
+        uint256 _dailyRentFee,
+        uint256 _mintLimit,
+        string memory _tokenUri
     ) ERC721("VerseToken", "VT") {
         owner = msg.sender;
         versepropAddress = _versepropAddress;
+        mintLimit = _mintLimit;
         dailyRentFee = _dailyRentFee;
+        tokenUri = _tokenUri;
+    }
+
+    function withdraw() external {
+        require(msg.sender == owner, "Only the owner can withdraw");
+        payable(owner).transfer(address(this).balance);
     }
 
     function mint(uint256 numberOfDays) external payable {
@@ -30,9 +41,14 @@ contract RentalContract is ERC721 {
         require(msg.value >= totalCost, "Incorrect payment amount");
 
         uint256 tokenId = tokenIdCounter.current() + 1;
+        if (mintLimit > 0) {
+            require(tokenId <= mintLimit, "Minting limit reached");
+        }
+
         uint256 expiration = block.timestamp + (numberOfDays * 1 days);
 
         _safeMint(msg.sender, tokenId);
+        _setTokenURI(tokenId, tokenUri);
         expirations[tokenId] = expiration;
 
         tokenIdCounter.increment();
